@@ -137,3 +137,20 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+
+# Production builds (para React/Vite/CRA en monorepo)
+build/
+client/build/
+server/build/
+dist/
+# Si usas Vite específicamente, ya está cubierto por **/.vitepress/... pero este general lo refuerza
+
+# Editor directories (si no los tienes ya)
+.vscode/
+.idea/
+.DS_Store
+
+# Archivos temporales de desarrollo (opcional, pero útil para mobile testing)
+*.tmp
+Thumbs.db
