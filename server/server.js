@@ -9,18 +9,19 @@ const app = express();
 const server = http.createServer(app);
 
 // Configuración CORS
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' && process.env.CLIENT_URL 
+    ? process.env.CLIENT_URL 
+    : "*",  // En desarrollo permitir todas, en producción solo CLIENT_URL
+  methods: ["GET", "POST"],
+  credentials: true
+};
+
 const io = socketIo(server, {
-  cors: {
-    origin: process.env.CLIENT_URL || "*",  // Permitir todas las conexiones en desarrollo
-    methods: ["GET", "POST"],
-    credentials: true
-  }
+  cors: corsOptions
 });
 
-app.use(cors({
-  origin: "*",  // Permitir todas las conexiones en desarrollo
-  credentials: true
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
