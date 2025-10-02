@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import { useGame } from '../context/GameContext';
 import { motion } from 'framer-motion';
+import { getServerUrl } from '../utils/getServerUrl';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Home = () => {
     setError('');
 
     try {
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL || 'http://localhost:3001'}/create-room`, {
+      const response = await fetch(`${getServerUrl()}/create-room`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

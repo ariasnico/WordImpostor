@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSocket } from '../context/SocketContext';
 import { useGame } from '../context/GameContext';
 import { motion } from 'framer-motion';
+import { getServerUrl } from '../utils/getServerUrl';
 
 const JoinRoom = () => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const JoinRoom = () => {
 
     try {
       // Verificar que la sala existe
-      const response = await fetch(`${process.env.REACT_APP_SERVER_URL || 'http://localhost:3001'}/room/${roomCode}`);
+      const response = await fetch(`${getServerUrl()}/room/${roomCode}`);
       const data = await response.json();
 
       if (response.ok) {

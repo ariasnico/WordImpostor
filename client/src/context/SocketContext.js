@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import { getServerUrl } from '../utils/getServerUrl';
 
 const SocketContext = createContext();
 
@@ -16,7 +17,9 @@ export const SocketProvider = ({ children }) => {
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const serverUrl = process.env.REACT_APP_SERVER_URL || 'http://localhost:3001';
+    const serverUrl = getServerUrl();
+    console.log('Conectando a servidor:', serverUrl);
+    
     const newSocket = io(serverUrl, {
       transports: ['websocket', 'polling'],
       reconnection: true,

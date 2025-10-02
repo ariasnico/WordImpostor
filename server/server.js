@@ -11,12 +11,16 @@ const server = http.createServer(app);
 // Configuración CORS
 const io = socketIo(server, {
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: process.env.CLIENT_URL || "*",  // Permitir todas las conexiones en desarrollo
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
-app.use(cors());
+app.use(cors({
+  origin: "*",  // Permitir todas las conexiones en desarrollo
+  credentials: true
+}));
 app.use(express.json());
 
 const PORT = process.env.PORT || 3001;
@@ -564,8 +568,23 @@ setInterval(() => {
   }
 }, 60 * 60 * 1000);
 
-server.listen(PORT, () => {
-  console.log(`Servidor escuchando en puerto ${PORT}`);
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`\n🎭 Servidor Word Impostor escuchando en puerto ${PORT}`);
+  
+  // Obtener y mostrar la IP local
+  const os = require('os');
+  const networkInterfaces = os.networkInterfaces();
+  console.log('\n📡 Accede al juego desde:');
+  console.log(`   - Local:    http://localhost:${PORT}`);
+  
+  Object.keys(networkInterfaces).forEach((interfaceName) => {
+    networkInterfaces[interfaceName].forEach((iface) => {
+      if (iface.family === 'IPv4' && !iface.internal) {
+        console.log(`   - Red local: http://${iface.address}:${PORT}`);
+      }
+    });
+  });
+  console.log('');
 });
 
 
